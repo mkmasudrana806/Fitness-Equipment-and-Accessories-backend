@@ -26,11 +26,11 @@ export type TOrder = {
   discount?: number;
   tax?: number;
   totalAmount?: number;
-  paymentMethod: "stripe" | "cot"; // cash on delivery(cot)
+  paymentMethod: "stripe" | "cod"; // cash on delivery(cod)
   paymentId: Types.ObjectId;
 };
 
 // order status type
 export type TOrderStatus = {
-  status: "received" | "delivered" | "canceled";
+  status: "delivered";
 };

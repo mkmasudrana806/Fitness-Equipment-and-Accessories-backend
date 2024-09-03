@@ -21,19 +21,12 @@ const createOrderSchema = z.object({
       .string()
       .regex(/^[0-9a-fA-F]{24}$/, "Invalid product ID")
       .optional(),
+    email: z.string().email("Invalid email address").optional(),
     shippingAddress: ShippingAddressSchema,
     items: z.array(OrderItemSchema).min(1, "At least one product is required"),
   }),
 });
 
-// change order status
-const changeOrderStatusSchema = z.object({
-  body: z.object({
-    status: z.enum([...(order_STATUS as [string, ...string[]])]),
-  }),
-});
-
 export const OrderValidations = {
   createOrderSchema,
-  changeOrderStatusSchema,
 };

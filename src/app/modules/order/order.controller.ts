@@ -40,23 +40,32 @@ const getUserOrders = asyncHanlder(async (req, res) => {
 });
 
 // ------------------- change Order Status -------------------
-const changeOrderStatus = asyncHanlder(async (req, res) => {
-  const result = await OrderServices.changeOrderStatusIntoDB(
-    req.params.id,
-    req.body
-  );
+const deliveredAnOrder = asyncHanlder(async (req, res) => {
+  const result = await OrderServices.deliveredAnOrder(req.params.id);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Order status changed successfully",
+    message: "Order delivered successfull",
     data: result,
   });
 });
 
+// ------------------- cancel an order -------------------
+const cancelledAnOrder = asyncHanlder(async (req, res) => {
+  const result = await OrderServices.cancelledAnOrder(req.params.id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Order cancelled successfull",
+    data: result,
+  });
+});
 export const OrderControllers = {
   createAnOrder,
   getAllOrders,
   getUserOrders,
-  changeOrderStatus,
+  deliveredAnOrder,
+  cancelledAnOrder,
 };

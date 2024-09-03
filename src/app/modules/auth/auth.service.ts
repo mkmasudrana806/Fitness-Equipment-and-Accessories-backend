@@ -33,7 +33,7 @@ const loginUserIntoDB = async (payload: TLoginUser) => {
   }
 
   // make access token and refresh token
-  const jwtPayload = { email: user.email, role: user.role };
+  const jwtPayload = { userId: user._id, email: user.email, role: user.role };
   const accessToken = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
     expiresIn: config.jwt_access_expires_in,
   });

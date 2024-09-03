@@ -20,12 +20,18 @@ router.get("/", auth("admin"), OrderControllers.getAllOrders);
 //  get user orders
 router.get("/my-orders", auth("user"), OrderControllers.getUserOrders);
 
-// change order status
+// delivered an order
 router.post(
-  "/change-order-status/:id",
+  "/delivered-order/:id",
   auth("admin"),
-  validateRequestData(OrderValidations.changeOrderStatusSchema),
-  OrderControllers.changeOrderStatus
+  OrderControllers.deliveredAnOrder
+);
+
+// cancel an order
+router.post(
+  "/cancel-order/:id",
+  auth("admin"),
+  OrderControllers.cancelledAnOrder
 );
 
 export const OrderRoutes = router;
