@@ -4,6 +4,7 @@ import { TFeatured, TProduct } from "./product.interface";
 import { Product } from "./product.model";
 import makeAllowedFieldData from "../../utils/allowedFieldUpdatedData";
 import { ALLOWED_FIELDS_TO_UPDATE } from "./product.constant";
+import QueryBuilder from "../../queryBuilder/queryBuilder";
 
 // ------------------ create a product into db------------------
 const createProductIntoDB = async (payload: TProduct) => {
@@ -12,8 +13,12 @@ const createProductIntoDB = async (payload: TProduct) => {
 };
 
 // ------------------ get all products form db ------------------
-const getAllProductsFromDB = async () => {
-  const result = await Product.find({});
+const getAllProductsFromDB = async (query: Record<string, unknown>) => {
+  const productQuery = new QueryBuilder(
+    Product.find({}),
+    query
+  ).fieldsLimiting();
+  const result = await productQuery.modelQuery
   return result;
 };
 
