@@ -5,6 +5,7 @@ import { ProductRoutes } from "../modules/products/product.routes";
 import { OrderRoutes } from "../modules/order/order.routes";
 import { PaymentRoutes } from "../modules/payments/payment.routes";
 import { ReviewRoutes } from "../modules/reviews/review.routes";
+import { TestimonialRoutes } from "../modules/testimonials/testimonial.routes";
 const router = express.Router();
 
 // user
@@ -24,5 +25,8 @@ router.use("/payments", PaymentRoutes);
 
 // reviews
 router.use("/reviews", ReviewRoutes);
+
+// testimonials
+router.use("/testimonials", TestimonialRoutes);
 
 export const ApiRoutes = router;
