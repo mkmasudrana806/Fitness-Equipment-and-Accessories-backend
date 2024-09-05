@@ -5,13 +5,7 @@ import { ReviewServices } from "./review.service";
 
 // ------------------- create a review -------------------
 const createAReview = asyncHanlder(async (req, res) => {
-  const { orderId, ...newReview } = req.body;
-
-  const result = await ReviewServices.createAReviewIntoDB(
-    req.user,
-    orderId,
-    newReview
-  );
+  const result = await ReviewServices.createAReviewIntoDB(req.user, req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -47,8 +41,27 @@ const deleteAReview = asyncHanlder(async (req, res) => {
   });
 });
 
+// ------------------- update a review -------------------
+const updateAReview = asyncHanlder(async (req, res) => {
+  const userId = req.user?.userId;
+  const reviewId = req.params?.id;
+  const result = await ReviewServices.updateAReviewIntoDB(
+    userId,
+    reviewId,
+    req.body
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Review updated successfull",
+    data: result,
+  });
+});
+
 export const ReviewControllers = {
   createAReview,
-  deleteAReview,
   getAllReviews,
+  deleteAReview,
+  updateAReview,
 };

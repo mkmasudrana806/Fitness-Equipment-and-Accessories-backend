@@ -17,6 +17,19 @@ const createAReviewSchema = z.object({
   }),
 });
 
+// update a review schema
+const updateAReviewSchema = z.object({
+  body: z.object({
+    rating: z
+      .number()
+      .min(1, "Rating should not be less than 1")
+      .max(5, "Rating should not be greater than 5")
+      .optional(),
+    comment: z.string().optional(),
+  }),
+});
+
 export const ReviewValidations = {
   createAReviewSchema,
+  updateAReviewSchema,
 };

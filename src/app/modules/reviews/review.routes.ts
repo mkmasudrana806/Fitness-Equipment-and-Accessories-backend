@@ -19,4 +19,12 @@ router.get("/", ReviewControllers.getAllReviews);
 // delete a review
 router.delete("/:id", auth("user"), ReviewControllers.deleteAReview);
 
+// update a review
+router.patch(
+  "/:id",
+  auth("user"),
+  validateRequestData(ReviewValidations.updateAReviewSchema),
+  ReviewControllers.updateAReview
+);
+
 export const ReviewRoutes = router;

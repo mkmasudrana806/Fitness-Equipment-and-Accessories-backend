@@ -22,7 +22,6 @@ const reviewSchema = new Schema<TReview>(
       type: String,
       trim: true,
     },
-    isDeleted: { type: Boolean, required: true, default: false },
   },
   {
     timestamps: true,

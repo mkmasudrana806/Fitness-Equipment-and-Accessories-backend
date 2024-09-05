@@ -1,6 +1,6 @@
 /**
  * -------------------- makeAllowedFieldData ---------------------
- * @param allowedFields array of allowed fields like (typeof TUser)[] = ['email', 'name',..and so on]
+ * @param allowedFields array of allowed fields like (keyof TUser)[] = ['email', 'name',..and so on]
  * @param payload payload data to update
  */
 const makeAllowedFieldData = <T>(
