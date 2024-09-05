@@ -16,6 +16,13 @@ router.post(
 // get all Testimonials
 router.get("/", TestimonialControllers.getAllTestimonials);
 
+// check user has access to testimonial
+router.get(
+  "/check-testimonial-access",
+  auth("user"),
+  TestimonialControllers.hasAccessToTestimonial
+);
+
 // delete a Testimonial
 router.delete("/:id", auth("admin"), TestimonialControllers.deleteATestimonial);
 

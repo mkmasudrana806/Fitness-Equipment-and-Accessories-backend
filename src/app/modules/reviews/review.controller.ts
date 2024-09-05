@@ -27,6 +27,23 @@ const getAllReviews = asyncHanlder(async (req, res) => {
   });
 });
 
+// --------------- check user has access to review a product -------------------
+const hasAccessToReviewProduct = asyncHanlder(async (req, res) => {
+  const result = await ReviewServices.hasAccessToReviewProduct(
+    req.user?.userId,
+    req.params?.productId
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: `User has ${
+      result ? "the access" : "not access"
+    } to make a review`,
+    data: result,
+  });
+});
+
 // ------------------- delete a review -------------------
 const deleteAReview = asyncHanlder(async (req, res) => {
   const userId = req.user?.userId;
@@ -62,6 +79,7 @@ const updateAReview = asyncHanlder(async (req, res) => {
 export const ReviewControllers = {
   createAReview,
   getAllReviews,
+  hasAccessToReviewProduct,
   deleteAReview,
   updateAReview,
 };

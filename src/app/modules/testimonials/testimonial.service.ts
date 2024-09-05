@@ -43,6 +43,17 @@ const getAllTestimonialsFromDB = async () => {
   return result;
 };
 
+// has access to post a testimonial
+const hasAccessToTestimonial = async (userId: string) => {
+  // check if the user has any order and that is delivered
+  const isOrderExists = await Order.findOne({ userId, status: "delivered" });
+  if (!isOrderExists) {
+    throw new AppError(httpStatus.NOT_FOUND, "You have not any order");
+  }
+
+  return isOrderExists ? true : false;
+};
+
 // delete a Testimonial ( permanent delete)
 const deleteATestimonialFromDB = async (id: string) => {
   const result = await Testimonial.findByIdAndDelete(id);
@@ -64,6 +75,7 @@ const publishedATestimonialIntoDB = async (id: string) => {
 export const TestimonialServices = {
   createATestimonialIntoDB,
   getAllTestimonialsFromDB,
+  hasAccessToTestimonial,
   deleteATestimonialFromDB,
   publishedATestimonialIntoDB,
 };

@@ -16,6 +16,13 @@ router.post(
 // get all reviews
 router.get("/", ReviewControllers.getAllReviews);
 
+// user has access to review (productId)
+router.get(
+  "/check-review-access/:productId",
+  auth("user"),
+  ReviewControllers.hasAccessToReviewProduct
+);
+
 // delete a review
 router.delete("/:id", auth("user"), ReviewControllers.deleteAReview);
 

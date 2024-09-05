@@ -30,6 +30,20 @@ const getAllTestimonials = asyncHanlder(async (req, res) => {
   });
 });
 
+// --------------- check user has access to testimonial -------------------
+const hasAccessToTestimonial = asyncHanlder(async (req, res) => {
+  const result = await TestimonialServices.hasAccessToTestimonial(
+    req.user?.userId
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: `User has ${result ? "access" : "not access"} to give Feedback`,
+    data: result,
+  });
+});
+
 // ------------------- delete a Testimonial -------------------
 const deleteATestimonial = asyncHanlder(async (req, res) => {
   const result = await TestimonialServices.deleteATestimonialFromDB(
@@ -61,6 +75,7 @@ const publishedATestimonial = asyncHanlder(async (req, res) => {
 export const TestimonialControllers = {
   createATestimonial,
   getAllTestimonials,
+  hasAccessToTestimonial,
   deleteATestimonial,
   publishedATestimonial,
 };

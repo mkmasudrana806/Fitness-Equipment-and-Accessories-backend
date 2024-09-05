@@ -52,6 +52,16 @@ const getAllReviewsFromDB = async () => {
   return result;
 };
 
+// check if authenticate user has the access to review the product
+const hasAccessToReviewProduct = async (userId: string, productId: string) => {
+  const result = await Order.findOne({
+    userId,
+    "items.productId": productId,
+  });
+
+  return result ? true : false;
+};
+
 // delete a review
 // also throw error review is not belong to this user
 const deleteAReviewIntoDB = async (userId: string, reviewId: string) => {
@@ -69,7 +79,6 @@ const deleteAReviewIntoDB = async (userId: string, reviewId: string) => {
 };
 
 // update a review
-
 const updateAReviewIntoDB = async (
   userId: string,
   reviewId: string,
@@ -114,6 +123,7 @@ const updateAReviewIntoDB = async (
 export const ReviewServices = {
   createAReviewIntoDB,
   getAllReviewsFromDB,
+  hasAccessToReviewProduct,
   deleteAReviewIntoDB,
   updateAReviewIntoDB,
 };
