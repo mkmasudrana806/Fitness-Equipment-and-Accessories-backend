@@ -17,13 +17,14 @@ const createProductIntoDB = async (payload: TProduct) => {
 
 // ------------------ get all products form db ------------------
 const getAllProductsFromDB = async (query: Record<string, unknown>) => {
-  console.log(query);
   const productQuery = new QueryBuilder(Product.find({}), query)
     .search(PRODUCT_SEARCHABLE_FIELDS)
     .filter()
+    .sort()
     .paginate();
   const result = await productQuery.modelQuery;
-  return result;
+  const meta = await productQuery.countTotal();
+  return { result, meta };
 };
 
 // ------------------ get a product from db ------------------

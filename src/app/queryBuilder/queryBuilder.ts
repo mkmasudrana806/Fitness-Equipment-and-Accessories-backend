@@ -37,36 +37,25 @@ class QueryBuilder<T> {
    * ------------------- filter -------------------
    * @returns exact matching. ex: email=mkmasudrana806@gmail.com.  except: ['searchTerm','priceRange', 'selectedCategories', 'sort', 'limit', 'page', 'fields'] these query fields
    */
-
-  // filter() {
-  //   const queryObj = { ...this.query }; // copied query object
-  //   const excludeFields = ["searchTerm", "sort", "limit", "page", "fields"];
-  //   excludeFields.forEach((el) => delete queryObj[el]);
-
-  //   // Handle category array for `$in` query
-  //   if (queryObj.category && Array.isArray(queryObj.category)) {
-  //     queryObj.category = { $in: queryObj.category };
-  //   }
-
-  //   // Handle priceRange array for `$in` query
-  //   if (queryObj.priceRange && Array.isArray(queryObj.priceRange)) {
-  //     queryObj.priceRange = { $in: queryObj.priceRange };
-  //   }
-
-  //   // Handle other filters like price or other exact matches
-  //   this.modelQuery = this.modelQuery.find(queryObj as FilterQuery<T>);
-  //   return this;
-  // }
-
   filter() {
-    const queryObj = { ...this.query }; // copied query object
+    const queryObj = { ...this.query };
     const excludeFields = ["searchTerm", "sort", "limit", "page", "fields"];
     excludeFields.forEach((el) => delete queryObj[el]);
 
-    // Handle category array for `$in` query
+    // Decode all query parameters before using them
+    Object.keys(queryObj).forEach((key) => {
+      if (typeof queryObj[key] === "string") {
+        queryObj[key] = decodeURIComponent(queryObj[key] as string);
+      }
+    });
+
+    // Handle category array
     const categories = queryObj.category as string[];
-    if (queryObj.category && categories.length > 0) {
-      queryObj.category = { $in: categories };
+
+    if (Array.isArray(categories) && categories.length > 1) {
+      queryObj.category = {
+        $in: categories.map((cat) => decodeURIComponent(cat)),
+      };
     }
 
     // Handle price range for exact matches
@@ -100,10 +89,12 @@ class QueryBuilder<T> {
    * @returns return paginated results. by defautl limit 10 and page 1. ex: limit=20&page=3
    */
   paginate() {
-    let page = Number(this?.query?.page) || 1;
-    let limit = Number(this?.query?.limit) || 10;
-    let skip = (page - 1) * limit;
-    this.modelQuery = this.modelQuery.skip(skip).limit(limit);
+    let page = Number(this?.query?.page);
+    let limit = Number(this?.query?.limit);
+    if (page && limit) {
+      let skip = (page - 1) * limit;
+      this.modelQuery = this.modelQuery.skip(skip).limit(limit);
+    }
     return this;
   }
 
