@@ -11,6 +11,7 @@ const productSchema = new Schema<TProduct>(
     quantity: { type: Number, required: true },
     featured: { type: Boolean, required: true, default: false },
     description: { type: String, required: true },
+    productImgUrl: { type: String, required: true },
     isDeleted: { type: Boolean, default: false },
   },
   {

@@ -1,17 +1,14 @@
+import { ProductCategoryEnum } from "./product.constant";
+
 // product type
 export type TProduct = {
   name: string;
   price: number;
-  category:
-    | "cardio"
-    | "strength"
-    | "Yoga"
-    | "accessories"
-    | "wearables"
-    | "recovery";
+  category: ProductCategoryEnum;
   quantity: number;
   featured: boolean;
   description: string;
+  productImgUrl: string;
   isDeleted: boolean;
 };
 

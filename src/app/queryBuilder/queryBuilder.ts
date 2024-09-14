@@ -35,12 +35,51 @@ class QueryBuilder<T> {
 
   /**
    * ------------------- filter -------------------
-   * @returns exact matching. ex: email=mkmasudrana806@gmail.com.  except: ['searchTerm', 'sort', 'limit', 'age', 'fields'] these query fields
+   * @returns exact matching. ex: email=mkmasudrana806@gmail.com.  except: ['searchTerm','priceRange', 'selectedCategories', 'sort', 'limit', 'page', 'fields'] these query fields
    */
+
+  // filter() {
+  //   const queryObj = { ...this.query }; // copied query object
+  //   const excludeFields = ["searchTerm", "sort", "limit", "page", "fields"];
+  //   excludeFields.forEach((el) => delete queryObj[el]);
+
+  //   // Handle category array for `$in` query
+  //   if (queryObj.category && Array.isArray(queryObj.category)) {
+  //     queryObj.category = { $in: queryObj.category };
+  //   }
+
+  //   // Handle priceRange array for `$in` query
+  //   if (queryObj.priceRange && Array.isArray(queryObj.priceRange)) {
+  //     queryObj.priceRange = { $in: queryObj.priceRange };
+  //   }
+
+  //   // Handle other filters like price or other exact matches
+  //   this.modelQuery = this.modelQuery.find(queryObj as FilterQuery<T>);
+  //   return this;
+  // }
+
   filter() {
     const queryObj = { ...this.query }; // copied query object
     const excludeFields = ["searchTerm", "sort", "limit", "page", "fields"];
     excludeFields.forEach((el) => delete queryObj[el]);
+
+    // Handle category array for `$in` query
+    const categories = queryObj.category as string[];
+    if (queryObj.category && categories.length > 0) {
+      queryObj.category = { $in: categories };
+    }
+
+    // Handle price range for exact matches
+    if (queryObj.minPrice && queryObj.maxPrice) {
+      queryObj.price = {
+        $gte: Number(queryObj.minPrice),
+        $lte: Number(queryObj.maxPrice),
+      };
+      delete queryObj.minPrice;
+      delete queryObj.maxPrice;
+    }
+
+    // Handle other filters like price or other exact matches
     this.modelQuery = this.modelQuery.find(queryObj as FilterQuery<T>);
     return this;
   }

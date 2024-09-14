@@ -9,7 +9,7 @@ export type TOrderItem = {
 export type TShippingAddress = {
   name: string;
   email: string;
-  phone: string;
+  contact: string;
   address: string;
 };
 

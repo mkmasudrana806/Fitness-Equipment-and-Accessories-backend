@@ -6,7 +6,7 @@ import { order_STATUS } from "./order.constant";
 const shippingAddressSchema = new Schema<TShippingAddress>({
   name: { type: String, required: true },
   email: { type: String, required: true },
-  phone: { type: String, required: true },
+  contact: { type: String, required: true },
   address: { type: String, required: true },
 });
 

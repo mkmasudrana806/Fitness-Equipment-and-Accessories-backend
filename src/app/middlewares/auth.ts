@@ -17,10 +17,7 @@ const auth = (...requiredRoles: string[]) => {
       const token = req.headers.authorization;
       // check if token is provided to headers
       if (!token) {
-        throw new AppError(
-          httpStatus.UNAUTHORIZED,
-          "Unauthorized access!, token is missing!"
-        );
+        throw new AppError(httpStatus.UNAUTHORIZED, "Unauthorized access!");
       }
 
       // decoded the token
@@ -64,10 +61,7 @@ const auth = (...requiredRoles: string[]) => {
           iat as number
         )
       ) {
-        throw new AppError(
-          httpStatus.UNAUTHORIZED,
-          "You are not authorized, your token is invalid!"
-        );
+        throw new AppError(httpStatus.UNAUTHORIZED, "You are not authorized");
       }
 
       // check if the user role and token role same

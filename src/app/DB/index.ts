@@ -12,9 +12,9 @@ const adminData = {
   password: "admin",
   role: "admin",
   age: 20,
+  gender: "male",
   contact: "017234324324",
   address: "Sirajganj",
-  gender: "male",
 };
 
 // ---------  seed admin data to database at database connection ----------

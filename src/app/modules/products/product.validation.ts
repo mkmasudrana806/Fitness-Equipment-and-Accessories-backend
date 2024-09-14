@@ -18,8 +18,10 @@ const createProductSchema = z.object({
       .number({ required_error: "Quantity is required" })
       .nonnegative("Quantity should be nonnegative"),
     description: z.string({ required_error: "Description is required" }),
+    productImgUrl: z.string({ required_error: "Product image is required" }),
   }),
 });
+
 
 // update product validation schema
 const updateProductSchema = z.object({
