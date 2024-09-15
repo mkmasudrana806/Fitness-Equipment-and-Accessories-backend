@@ -49,7 +49,6 @@ const updateAProductIntoDB = async (id: string, payload: Partial<TProduct>) => {
     ALLOWED_FIELDS_TO_UPDATE,
     payload
   );
-
   const result = await Product.findByIdAndUpdate(id, allowedData, {
     new: true,
     runValidators: true,
@@ -67,16 +66,6 @@ const deleteAProductFromDB = async (id: string) => {
   return result;
 };
 
-// ------------------ make product featured or unfeatured into db ------------------
-const productFeaturedUnfeaturedIntoDB = async (
-  id: string,
-  payload: TFeatured
-) => {
-  const result = await Product.findByIdAndUpdate(id, payload, {
-    new: true,
-  });
-  return result;
-};
 
 export const ProductServices = {
   createProductIntoDB,
@@ -84,5 +73,4 @@ export const ProductServices = {
   getSingleProductFromDB,
   updateAProductIntoDB,
   deleteAProductFromDB,
-  productFeaturedUnfeaturedIntoDB,
 };

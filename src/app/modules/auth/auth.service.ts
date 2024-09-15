@@ -33,7 +33,11 @@ const loginUserIntoDB = async (payload: TLoginUser) => {
   }
 
   // make access token and refresh token
-  const jwtPayload = { userId: user._id, email: user.email, role: user.role };
+  const jwtPayload = {
+    userId: user?._id,
+    email: user?.email,
+    role: user?.role,
+  };
   const accessToken = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
     expiresIn: config.jwt_access_expires_in,
   });
@@ -45,7 +49,6 @@ const loginUserIntoDB = async (payload: TLoginUser) => {
       expiresIn: config.jwt_refresh_expires_in,
     }
   );
-
   return { accessToken, refreshToken };
 };
 
@@ -123,7 +126,11 @@ const forgotPassword = async (email: string) => {
   }
 
   // jwt payload and create an access token
-  const jwtPayload = { email: user?.email, role: user?.role };
+  const jwtPayload = {
+    userId: user?._id,
+    email: user?.email,
+    role: user?.role,
+  };
   const resetToken = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
     expiresIn: "10m",
   });
@@ -239,7 +246,11 @@ const refreshTokenSetup = async (token: string) => {
   }
 
   // create an access token
-  const jwtPayload = { email: user.email, role: user.role };
+  const jwtPayload = {
+    userId: user?._id,
+    email: user?.email,
+    role: user?.role,
+  };
   const accessToken = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
     expiresIn: config.jwt_access_expires_in,
   });

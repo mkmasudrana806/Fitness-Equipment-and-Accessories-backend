@@ -18,10 +18,13 @@ const createProductSchema = z.object({
       .number({ required_error: "Quantity is required" })
       .nonnegative("Quantity should be nonnegative"),
     description: z.string({ required_error: "Description is required" }),
+    featured: z.boolean({
+      required_error: "Featured is required",
+      invalid_type_error: "Featured must be boolean type",
+    }),
     productImgUrl: z.string({ required_error: "Product image is required" }),
   }),
 });
-
 
 // update product validation schema
 const updateProductSchema = z.object({
@@ -48,18 +51,8 @@ const updateProductSchema = z.object({
   }),
 });
 
-// make product featured or unfeatured
-const productFeaturedUnfeaturedSchema = z.object({
-  body: z.object({
-    featured: z.boolean({
-      required_error: "Product featured is required",
-      invalid_type_error: "Featured should be a boolean value",
-    }),
-  }),
-});
 
 export const ProductValidations = {
   createProductSchema,
   updateProductSchema,
-  productFeaturedUnfeaturedSchema,
 };

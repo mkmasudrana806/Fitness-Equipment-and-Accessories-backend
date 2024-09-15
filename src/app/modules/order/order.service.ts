@@ -60,7 +60,7 @@ const createAnOrderIntoDB = async (userData: JwtPayload, payload: TOrder) => {
 
   // make a payment ( Transaction-1 )
   const payment = await Payment.create(paymentData);
-  console.log(payment);
+ 
 
   // set paymentId reference to Order collection
   payload.paymentId = payment._id;

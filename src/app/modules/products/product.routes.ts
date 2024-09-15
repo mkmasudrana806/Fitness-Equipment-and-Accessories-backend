@@ -22,18 +22,12 @@ router.get("/:id", ProductControllers.getSingleProduct);
 // update a product
 router.patch(
   "/:id",
+  auth("admin"),
   validateRequestData(ProductValidations.updateProductSchema),
   ProductControllers.updateAProduct
 );
 
 // delete a product
-router.delete("/:id", ProductControllers.deleteAProduct);
-
-// make product featrued or unfeatured
-router.patch(
-  "/make-featured/:id",
-  validateRequestData(ProductValidations.productFeaturedUnfeaturedSchema),
-  ProductControllers.productFeaturedUnfeatured
-);
+router.delete("/:id", auth("admin"), ProductControllers.deleteAProduct);
 
 export const ProductRoutes = router;

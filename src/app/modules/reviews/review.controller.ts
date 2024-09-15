@@ -17,7 +17,7 @@ const createAReview = asyncHanlder(async (req, res) => {
 
 // --------------- get all reviews -------------------
 const getAllReviews = asyncHanlder(async (req, res) => {
-  const result = await ReviewServices.getAllReviewsFromDB();
+  const result = await ReviewServices.getAllReviewsFromDB(req.query);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

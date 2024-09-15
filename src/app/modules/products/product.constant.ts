@@ -30,6 +30,7 @@ export const ALLOWED_FIELDS_TO_UPDATE: (keyof TProduct)[] = [
   "category",
   "quantity",
   "description",
+  "featured",
 ];
 
 // search able fields

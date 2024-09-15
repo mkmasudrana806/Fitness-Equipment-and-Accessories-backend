@@ -7,6 +7,7 @@ export const allowedFieldsToUpdate: (keyof TUser)[] = [
   "gender",
   "contact",
   "address",
+  "profileImg",
 ];
 
 // search able fields to search

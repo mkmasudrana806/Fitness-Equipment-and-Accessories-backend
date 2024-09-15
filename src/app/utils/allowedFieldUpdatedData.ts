@@ -9,7 +9,7 @@ const makeAllowedFieldData = <T>(
 ) => {
   const updatedData: Partial<T> = {};
   allowedFields.forEach((field) => {
-    if (payload[field]) {
+    if (payload[field] || payload[field] === "" || payload[field] === false) {
       updatedData[field] = payload[field];
     }
   });

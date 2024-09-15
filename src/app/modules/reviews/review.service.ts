@@ -7,9 +7,9 @@ import { Order } from "../order/order.model";
 import { Product } from "../products/product.model";
 import makeAllowedFieldData from "../../utils/allowedFieldUpdatedData";
 import { REVIEW_ALLOWED_FIELDS_TO_UPDATE } from "./review.constant";
-import { Date } from "mongoose";
+import QueryBuilder from "../../queryBuilder/queryBuilder";
 
-// create a review into db
+// -------------- create a review into db --------------
 const createAReviewIntoDB = async (userData: JwtPayload, payload: TReview) => {
   // check if the product is exists
   const isProductExists = await Product.findById(payload.productId);
@@ -23,6 +23,7 @@ const createAReviewIntoDB = async (userData: JwtPayload, payload: TReview) => {
     status: "delivered",
     "items.productId": payload.productId,
   });
+
   if (!isUserBelongsToOrder) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
@@ -46,13 +47,17 @@ const createAReviewIntoDB = async (userData: JwtPayload, payload: TReview) => {
   return result;
 };
 
-// get all reviews
-const getAllReviewsFromDB = async () => {
-  const result = await Review.find({});
+// -------------- get all reviews by default. also filter by productId or productId&&userId--------------
+const getAllReviewsFromDB = async (query: Record<string, unknown>) => {
+  const reviewQuery = new QueryBuilder(
+    Review.find({}).populate("userId"),
+    query
+  ).filter();
+  const result = reviewQuery.modelQuery;
   return result;
 };
 
-// check if authenticate user has the access to review the product
+// -------------- check if authenticate user has the access to review the product --------------
 const hasAccessToReviewProduct = async (userId: string, productId: string) => {
   const result = await Order.findOne({
     userId,
@@ -62,7 +67,7 @@ const hasAccessToReviewProduct = async (userId: string, productId: string) => {
   return result ? true : false;
 };
 
-// delete a review
+// -------------- delete a review --------------
 // also throw error review is not belong to this user
 const deleteAReviewIntoDB = async (userId: string, reviewId: string) => {
   // check if review belongs to the user
@@ -78,7 +83,7 @@ const deleteAReviewIntoDB = async (userId: string, reviewId: string) => {
   return result;
 };
 
-// update a review
+// -------------- update a review --------------
 const updateAReviewIntoDB = async (
   userId: string,
   reviewId: string,

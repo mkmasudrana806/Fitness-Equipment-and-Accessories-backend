@@ -69,20 +69,6 @@ const deleteAProduct = asyncHanlder(async (req, res) => {
   });
 });
 
-// ------------------- make product featured or unfeatured -------------------
-const productFeaturedUnfeatured = asyncHanlder(async (req, res) => {
-  const result = await ProductServices.productFeaturedUnfeaturedIntoDB(
-    req.params.id,
-    req.body
-  );
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Product featured updated successfully",
-    data: result,
-  });
-});
 
 export const ProductControllers = {
   createProduct,
@@ -90,5 +76,4 @@ export const ProductControllers = {
   getSingleProduct,
   updateAProduct,
   deleteAProduct,
-  productFeaturedUnfeatured,
 };
