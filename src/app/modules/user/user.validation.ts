@@ -26,6 +26,10 @@ const createUserValidationsSchema = z.object({
       invalid_type_error: "Age should be a number",
       required_error: "Age is required",
     }),
+    gender: z.enum(["male", "female", "others"], {
+      invalid_type_error: "Gender is invalid",
+      required_error: "Gender is required",
+    }),
     contact: z.string({
       invalid_type_error: "Contact should be a string",
       required_error: "Contact number is required",

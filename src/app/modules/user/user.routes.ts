@@ -12,7 +12,6 @@ const router = express.Router();
 router.post(
   "/create-user",
   upload.single("file"), // file uploading
-  // parse text data to JSON data
   (req: Request, res: Response, next: NextFunction) => {
     if (req.body?.data) {
       req.body = JSON.parse(req.body?.data);

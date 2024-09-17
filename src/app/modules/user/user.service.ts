@@ -21,12 +21,24 @@ const createAnUserIntoDB = async (file: TfileUpload, payload: TUser) => {
   // set default password if password is not provided
   payload.password = payload.password || (config.default_password as string);
 
+  // check if the user already exists
+  const user = await User.findOne({ email: payload.email });
+  if (user) {
+    throw new AppError(httpStatus.BAD_REQUEST, "User already exists");
+  }
+
   // set profileImg if image is provided
-  if (file) {
-    const imageName = `${payload.email}-${payload.name.firstName}`;
-    const path = file.path;
-    const uploadedImage: any = await sendImageToCloudinary(path, imageName);
-    payload.profileImg = uploadedImage.secure_url;
+  // if (file) {
+  //   const imageName = `${payload.email}-${payload.name.firstName}`;
+  //   const path = file.path;
+  //   const uploadedImage: any = await sendImageToCloudinary(path, imageName);
+  //   payload.profileImg = uploadedImage.secure_url;
+  // }
+
+  // set placeholder image if image is not provided
+  if (!file || payload.profileImg === "") {
+    payload.profileImg =
+      "https://avatar.iran.liara.run/public/boy?username=Ash";
   }
 
   const result = await User.create(payload);
